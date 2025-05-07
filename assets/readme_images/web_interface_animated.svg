@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="600px" viewBox="0 0 800 600" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { background-color: #f8d7da; }
+            50% { background-color: #f5c6cb; }
+            100% { background-color: #f8d7da; }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes highlight {
+            0% { stroke-width: 2; }
+            50% { stroke-width: 4; }
+            100% { stroke-width: 2; }
+        }
+        
+        @keyframes blink {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        .browser {
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+        
+        .header {
+            animation: slideIn 1s ease-out forwards;
+            animation-delay: 0.5s;
+            opacity: 0;
+        }
+        
+        .control-panel {
+            animation: slideIn 1s ease-out forwards;
+            animation-delay: 1s;
+            opacity: 0;
+        }
+        
+        .sensor-readings {
+            animation: slideIn 1s ease-out forwards;
+            animation-delay: 1.5s;
+            opacity: 0;
+        }
+        
+        .visualizations {
+            animation: slideIn 1s ease-out forwards;
+            animation-delay: 2s;
+            opacity: 0;
+        }
+        
+        .alerts {
+            animation: slideIn 1s ease-out forwards, pulse 2s infinite;
+            animation-delay: 2.5s;
+            opacity: 0;
+        }
+        
+        .loader {
+            animation: spin 2s linear infinite;
+        }
+        
+        .critical-card {
+            animation: pulse 2s infinite;
+        }
+        
+        .alert-highlight {
+            animation: highlight 2s infinite;
+        }
+        
+        .blink-text {
+            animation: blink 2s infinite;
+        }
+    </style>
+    
+    <rect width="800" height="600" fill="#f8f9fa" />
+    
+    <!-- Browser window mockup -->
+    <g class="browser">
+        <rect x="50" y="50" width="700" height="500" rx="8" fill="#fff" stroke="#ddd" stroke-width="2" />
+        <rect x="50" y="50" width="700" height="40" rx="8" fill="#f1f3f5" stroke="#ddd" stroke-width="2" />
+        <circle cx="80" cy="70" r="8" fill="#ff6b6b" />
+        <circle cx="105" cy="70" r="8" fill="#ffd43b" />
+        <circle cx="130" cy="70" r="8" fill="#69db7c" />
+        <rect x="160" y="60" width="480" height="20" rx="4" fill="#e9ecef" />
+    </g>
+    
+    <!-- App header -->
+    <g class="header">
+        <text x="400" y="120" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">
+            Tire Condition Diagnostic System
+        </text>
+        <text x="400" y="145" font-family="Arial" font-size="14" text-anchor="middle" fill="#666">
+            Using Impedance Measurement
+        </text>
+    </g>
+    
+    <!-- Left panel / Control panel -->
+    <g class="control-panel">
+        <rect x="70" y="160" width="220" height="180" rx="4" fill="#e9ecef" />
+        <text x="180" y="180" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">
+            Simulation Controls
+        </text>
+        
+        <!-- Control inputs -->
+        <rect x="85" y="195" width="190" height="25" rx="4" fill="#fff" stroke="#ced4da" />
+        <text x="100" y="213" font-family="Arial" font-size="12" fill="#333">Interval: 1s</text>
+        
+        <rect x="85" y="230" width="190" height="25" rx="4" fill="#fff" stroke="#ced4da" />
+        <text x="100" y="248" font-family="Arial" font-size="12" fill="#333">Duration: 30s</text>
+        
+        <rect x="85" y="265" width="190" height="25" rx="4" fill="#fff" stroke="#ced4da" />
+        <text x="100" y="283" font-family="Arial" font-size="12" fill="#333">Damage Time: 15s</text>
+        
+        <rect x="85" y="300" width="190" height="25" rx="4" fill="#fff" stroke="#ced4da" />
+        <text x="230" y="318" font-family="Arial" font-size="12" text-anchor="end" fill="#333">Sidewall Damage</text>
+        
+        <!-- Buttons -->
+        <rect x="85" y="335" width="190" height="30" rx="4" fill="#6c757d" />
+        <text x="180" y="355" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#fff">
+            Stop Simulation
+        </text>
+        
+        <!-- Status panel -->
+        <rect x="70" y="350" width="220" height="140" rx="4" fill="#fff" stroke="#ddd" />
+        <text x="180" y="370" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">
+            Simulation Status
+        </text>
+        
+        <!-- Loader -->
+        <circle cx="100" cy="390" r="10" fill="none" stroke="#3498db" stroke-width="3" stroke-dasharray="30 15" class="loader" />
+        
+        <text x="120" y="395" font-family="Arial" font-size="14" fill="#333" class="blink-text">Running simulation...</text>
+        <text x="100" y="420" font-family="Arial" font-size="14" fill="#333">Time Step: <tspan font-weight="bold">18</tspan></text>
+        <text x="100" y="445" font-family="Arial" font-size="14" fill="#333">Alerts: <tspan font-weight="bold" fill="#dc3545">2</tspan></text>
+    </g>
+    
+    <!-- Right panel - Sensor readings -->
+    <g class="sensor-readings">
+        <rect x="310" y="160" width="210" height="80" rx="4" fill="#d4edda" stroke="#c3e6cb" />
+        <text x="415" y="185" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">
+            Sensor 1 - Tread (Left)
+        </text>
+        <text x="415" y="215" font-family="Arial" font-size="20" font-weight="bold" text-anchor="middle" fill="#333">
+            1.05
+        </text>
+        
+        <rect x="520" y="160" width="210" height="80" rx="4" fill="#fff3cd" stroke="#ffeeba" />
+        <text x="625" y="185" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">
+            Sensor 2 - Tread (Right)
+        </text>
+        <text x="625" y="215" font-family="Arial" font-size="20" font-weight="bold" text-anchor="middle" fill="#fd7e14">
+            1.23
+        </text>
+        
+        <!-- More sensor readings -->
+        <rect x="310" y="250" width="210" height="80" rx="4" fill="#f8d7da" stroke="#f5c6cb" class="critical-card" />
+        <text x="415" y="275" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">
+            Sensor 3 - Sidewall
+        </text>
+        <text x="415" y="305" font-family="Arial" font-size="20" font-weight="bold" text-anchor="middle" fill="#dc3545">
+            1.42
+        </text>
+        
+        <rect x="520" y="250" width="210" height="80" rx="4" fill="#d4edda" stroke="#c3e6cb" />
+        <text x="625" y="275" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">
+            Sensor 4 - Bead
+        </text>
+        <text x="625" y="305" font-family="Arial" font-size="20" font-weight="bold" text-anchor="middle" fill="#333">
+            1.07
+        </text>
+    </g>
+    
+    <!-- Visualization panels -->
+    <g class="visualizations">
+        <rect x="310" y="340" width="210" height="160" rx="4" fill="#fff" stroke="#ddd" />
+        <rect x="310" y="340" width="210" height="30" rx="4" fill="#343a40" />
+        <text x="415" y="360" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#fff">
+            Tire Status Visualization
+        </text>
+        
+        <!-- Tire status mockup -->
+        <circle cx="415" cy="420" r="70" fill="#ddd" />
+        <circle cx="415" cy="420" r="40" fill="#888" />
+        <circle cx="380" cy="385" r="15" fill="#4caf50" />
+        <text x="380" y="385" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#fff">1</text>
+        <circle cx="450" cy="385" r="15" fill="#ff9800" />
+        <text x="450" y="385" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#fff">2</text>
+        <circle cx="415" cy="350" r="15" fill="#f44336" class="alert-highlight" />
+        <text x="415" y="350" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#fff">3</text>
+        <circle cx="415" cy="380" r="15" fill="#4caf50" />
+        <text x="415" y="380" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#fff">4</text>
+        
+        <!-- Impedance plot mockup -->
+        <rect x="520" y="340" width="210" height="160" rx="4" fill="#fff" stroke="#ddd" />
+        <rect x="520" y="340" width="210" height="30" rx="4" fill="#343a40" />
+        <text x="625" y="360" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#fff">
+            Impedance Readings
+        </text>
+        
+        <!-- Simplified graph -->
+        <line x1="530" y1="450" x2="720" y2="450" stroke="#ddd" stroke-width="1" />
+        <line x1="530" y1="400" x2="720" y2="400" stroke="#ddd" stroke-width="1" />
+        <line x1="530" y1="450" x2="530" y2="380" stroke="#ddd" stroke-width="1" />
+        <line x1="530" y1="400" x2="720" y2="400" stroke="#f44336" stroke-width="1" stroke-dasharray="5,5" />
+        
+        <polyline points="530,440 550,437 570,435 590,430 610,420 630,415 650,410 670,400 690,390 710,380" 
+                fill="none" stroke="#3f51b5" stroke-width="2" />
+        <polyline points="530,440 550,438 570,437 590,435 610,436 630,435 650,433 670,432 690,430 710,428" 
+                fill="none" stroke="#4caf50" stroke-width="2" />
+        <polyline points="530,440 550,435 570,430 590,420 610,410 630,400 650,395 670,390 690,385 710,380" 
+                fill="none" stroke="#dc3545" stroke-width="2" class="alert-highlight" />
+    </g>
+    
+    <!-- Alerts panel -->
+    <g class="alerts">
+        <rect x="310" y="510" width="420" height="30" rx="4" fill="#dc3545" />
+        <text x="520" y="530" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#fff">
+            Alerts and Recommendations
+        </text>
+        <rect x="310" y="540" width="420" height="60" rx="0" fill="#fff" stroke="#ddd" />
+        <rect x="320" y="550" width="400" height="40" rx="4" fill="#f8d7da" />
+        <text x="330" y="570" font-family="Arial" font-size="12" fill="#333">
+            <tspan font-weight="bold">CRITICAL:</tspan> SIDEWALL_DAMAGE detected in Sidewall (Confidence: 85%)
+        </text>
+        <text x="330" y="585" font-family="Arial" font-size="12" fill="#333">
+            <tspan font-weight="bold">Recommendation:</tspan> Reduce speed immediately. Schedule urgent tire replacement.
+        </text>
+    </g>
+</svg>
