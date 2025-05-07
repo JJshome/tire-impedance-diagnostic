@@ -11,6 +11,8 @@ This project implements a simulation of a tire condition diagnostic system that 
 - **AI-based Failure Prediction**: Uses pattern analysis to predict tire failures
 - **Temperature Compensation**: Adjusts impedance readings based on temperature
 - **Real-time Visualization**: Presents tire condition through intuitive visualizations
+- **Web-based Interface**: Interactive dashboard for simulation and monitoring
+- **Docker Support**: Easy deployment using Docker containers
 
 ## 📊 System Architecture
 
@@ -29,9 +31,12 @@ The system consists of several integrated modules:
 ### Prerequisites
 
 - Python 3.8+
-- Required libraries: NumPy, Pandas, Matplotlib, Scikit-learn
+- Required libraries: NumPy, Pandas, Matplotlib, Scikit-learn, Flask
+- Docker (optional, for containerized deployment)
 
 ### Installation
+
+#### Method 1: Direct Python Installation
 
 1. Clone the repository:
 ```bash
@@ -44,21 +49,47 @@ cd tire-impedance-diagnostic
 pip install -r requirements.txt
 ```
 
-### Running the System
-
-The project includes a user-friendly interface for running the complete diagnostic workflow:
-
+3. Run the web application:
 ```bash
-python run_diagnostic.py
+python app.py
 ```
 
-This will open an interactive menu that allows you to:
-- Generate simulation data for different scenarios
-- Analyze tire impedance data
-- Run real-time diagnostic simulations
-- View results and visualizations
+The web interface will be available at http://localhost:8080
 
-## 🔄 Workflow Examples
+#### Method 2: Docker Installation (Recommended)
+
+1. Clone the repository:
+```bash
+git clone https://github.com/JJshome/tire-impedance-diagnostic.git
+cd tire-impedance-diagnostic
+```
+
+2. Build and run with Docker Compose:
+```bash
+docker-compose up -d
+```
+
+The web interface will be available at http://localhost:8080
+
+## 💻 Web Interface
+
+The system includes a fully interactive web interface for running simulations and visualizing results:
+
+1. Open your browser and navigate to http://localhost:8080
+2. Configure simulation parameters:
+   - Interval: Time between readings (seconds)
+   - Duration: Total simulation time (seconds)
+   - Damage Time: When to apply damage (seconds)
+   - Damage Type: Type of tire damage to simulate
+3. Click "Start Simulation" to begin
+4. Monitor real-time sensor readings and visualizations
+5. Download reports and data for further analysis
+
+![Web Interface Screenshot](assets/readme_images/web_interface.png)
+
+## 🔄 Command-Line Usage
+
+For automated testing or integration with other systems, you can also use the command-line tools:
 
 ### 1. Generate Simulation Data
 
@@ -83,9 +114,9 @@ Analyze simulation data to detect anomalies:
 python analyze_simulation_data.py --latest
 ```
 
-### 3. Run Full Simulation
+### 3. Run Real-time Simulation
 
-Run a real-time simulation:
+Run a real-time simulation without web interface:
 
 ```bash
 python tire_diagnostic_system.py --interval 5 --duration 60 --damage-time 30 --damage-type sidewall
@@ -106,6 +137,34 @@ Shows the current state of the tire with sensor readings and alerts:
 Displays time-series data of impedance readings from all sensors:
 
 ![Impedance Plot](assets/readme_images/impedance_plot.svg)
+
+## 🔧 Advanced Configuration
+
+### Docker Environment Variables
+
+When running with Docker, you can configure the application using environment variables in the `docker-compose.yml` file:
+
+```yaml
+environment:
+  - DEBUG=True  # Enable debug mode
+  - PORT=8080   # Change port number
+```
+
+### Customizing Simulation Parameters
+
+You can adjust various simulation parameters in the source code:
+
+- Sensor count and placement: Modify `sensor_simulation.py`
+- Alert thresholds: Modify `anomaly_detection.py`
+- Visualization settings: Modify `data_visualization.py`
+
+### Deploying to Production
+
+For production deployments, we recommend:
+
+1. Using Docker for containerization
+2. Setting up a reverse proxy (Nginx or Traefik) for HTTPS support
+3. Implementing proper access control if exposing the application publicly
 
 ## 📋 Sample Output
 
@@ -130,19 +189,33 @@ Maintenance Recommendations:
 - Wheel alignment check recommended
 ```
 
-## 🔧 Customization
+## 🛠️ Project Structure
 
-You can customize various parameters in the simulation:
-
-- Sensor count and placement
-- Sampling interval
-- Alert thresholds
-- Damage scenarios
-- Visualization options
-
-## 🛈 Patent Information
-
-This implementation is based on a patent application by Ucaretron Inc. titled "Tire Condition Diagnostic System and Method Using Impedance Measurement." This simulation is for educational and demonstration purposes only.
+```
+tire-impedance-diagnostic/
+├── app.py                      # Web application main file
+├── analyze_simulation_data.py  # Data analysis script
+├── generate_simulation_data.py # Data generation script
+├── tire_diagnostic_system.py   # CLI simulation system
+├── sensor_simulation.py        # Sensor data simulation
+├── data_preprocessing.py       # Data preprocessing module
+├── anomaly_detection.py        # Anomaly detection algorithms
+├── alert_system.py             # Alert generation system
+├── data_visualization.py       # Visualization components
+├── templates/                  # HTML templates
+│   └── index.html              # Web interface template
+├── static/                     # Static web assets
+│   ├── css/                    # CSS styles
+│   └── js/                     # JavaScript files
+├── assets/                     # Documentation assets
+│   └── readme_images/          # Images for README
+├── data/                       # Generated data storage
+├── output/                     # Reports and outputs
+├── Dockerfile                  # Docker configuration
+├── docker-compose.yml          # Docker Compose configuration
+├── requirements.txt            # Python dependencies
+└── README.md                   # Documentation
+```
 
 ## 🔍 Technical Details
 
@@ -163,6 +236,47 @@ The anomaly detection system employs several techniques:
 - Pattern recognition for trend analysis
 - Comparative algorithms for uneven wear detection
 
+### Web Implementation
+
+The web interface is built using:
+- **Backend**: Flask (Python web framework)
+- **Frontend**: HTML5, CSS3, JavaScript (with jQuery)
+- **Visualization**: Matplotlib (for image generation)
+- **Real-time Updates**: AJAX polling for dynamic updates
+
+## 🌐 Online Demo
+
+An online demonstration is available at: [https://tire-diagnostic-demo.example.com](https://tire-diagnostic-demo.example.com) (Note: This is a placeholder URL for illustration purposes)
+
+## 🔄 Continuous Development
+
+This project is actively developed with regular updates:
+
+- Improved sensor simulation algorithms
+- Enhanced visualization capabilities
+- Additional damage scenarios
+- Machine learning model improvements
+
+## 🔮 Future Enhancements
+
+Planned future enhancements include:
+
+- **Enhanced ML Models**: More sophisticated AI models for anomaly detection
+- **3D Visualizations**: Interactive 3D tire model with real-time status
+- **Mobile Interface**: Responsive design for mobile devices
+- **API Integration**: REST API for integration with other systems
+- **Multi-tire Support**: Simultaneous monitoring of multiple tires
+
+## 🛈 Patent Information
+
+This implementation is based on a patent application by Ucaretron Inc. titled "Tire Condition Diagnostic System and Method Using Impedance Measurement." This simulation is for educational and demonstration purposes only.
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Ucaretron Inc. for the innovative patent application
+- The Python scientific community for providing excellent tools
+- Contributors to the open-source libraries used in this project
