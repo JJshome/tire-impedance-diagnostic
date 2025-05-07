@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tire Diagnostic System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            padding-top: 20px;
+            background-color: #f8f9fa;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .sensor-card {
+            height: 100%;
+            transition: all 0.3s;
+        }
+        .normal {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+        }
+        .critical {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        .visualization-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .tire-status-img, .impedance-plot-img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        .tire-status-img:hover, .impedance-plot-img:hover {
+            transform: scale(1.02);
+        }
+        .controls {
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .alerts-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .alert-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .alert-item.INFO {
+            background-color: #cce5ff;
+        }
+        .alert-item.ADVISORY {
+            background-color: #d1ecf1;
+        }
+        .alert-item.WARNING {
+            background-color: #fff3cd;
+        }
+        .alert-item.CRITICAL {
+            background-color: #f8d7da;
+        }
+        .alert-item.EMERGENCY {
+            background-color: #f8d7da;
+            border: 2px solid #dc3545;
+        }
+        #simulation-status {
+            font-weight: bold;
+        }
+        .sensor-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .sensor-location {
+            font-size: 14px;
+            color: #6c757d;
+        }
+        .card-header {
+            font-weight: bold;
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Tire Condition Diagnostic System</h1>
+            <p class="lead">Using Impedance Measurement</p>
+            <p><small class="text-muted">Based on Ucaretron Inc. Patent Application</small></p>
+        </div>
+
+        <div class="row">
+            <!-- Control Panel -->
+            <div class="col-md-4">
+                <div class="card controls mb-4">
+                    <div class="card-header bg-primary text-white">
+                        Simulation Controls
+                    </div>
+                    <div class="card-body">
+                        <form id="simulation-form">
+                            <div class="mb-3">
+                                <label for="interval" class="form-label">Interval (seconds):</label>
+                                <input type="number" class="form-control" id="interval" name="interval" value="1" min="0.5" max="10" step="0.5">
+                            </div>
+                            <div class="mb-3">
+                                <label for="duration" class="form-label">Duration (seconds):</label>
+                                <input type="number" class="form-control" id="duration" name="duration" value="30" min="10" max="300">
+                            </div>
+                            <div class="mb-3">
+                                <label for="damage-time" class="form-label">Damage Time (seconds):</label>
+                                <input type="number" class="form-control" id="damage-time" name="damage_time" value="15" min="5" max="100">
+                            </div>
+                            <div class="mb-3">
+                                <label for="damage-type" class="form-label">Damage Type:</label>
+                                <select class="form-select" id="damage-type" name="damage_type">
+                                    <option value="sidewall">Sidewall Damage</option>
+                                    <option value="tread">Tread Damage</option>
+                                    <option value="puncture">Puncture</option>
+                                    <option value="wear">Accelerated Wear</option>
+                                </select>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="button" id="start-btn" class="btn btn-success">Start Simulation</button>
+                                <button type="button" id="stop-btn" class="btn btn-danger" disabled>Stop Simulation</button>
+                                <button type="button" id="damage-btn" class="btn btn-warning" disabled>Apply Damage Now</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        Simulation Status
+                    </div>
+                    <div class="card-body">
+                        <div class="loader" id="status-loader"></div>
+                        <p id="simulation-status">Ready to start simulation</p>
+                        <p>Time Step: <span id="time-step">0</span></p>
+                        <p>Alerts: <span id="alert-count">0</span></p>
+                        <div class="d-grid gap-2">
+                            <button type="button" id="download-report-btn" class="btn btn-outline-primary" disabled>Download Report</button>
+                            <button type="button" id="download-csv-btn" class="btn btn-outline-secondary" disabled>Download Data (CSV)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Visualization Panel -->
+            <div class="col-md-8">
+                <div class="row mb-4">
+                    <!-- Sensor Readings -->
+                    <div class="col-md-6">
+                        <div class="card sensor-card normal" id="sensor-1-card">
+                            <div class="card-header">
+                                Sensor 1 - Tread (Left)
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="sensor-value" id="sensor-1-value">-</div>
+                                <div class="sensor-location">Temperature: <span id="sensor-1-temp">-</span>°C</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card sensor-card normal" id="sensor-2-card">
+                            <div class="card-header">
+                                Sensor 2 - Tread (Right)
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="sensor-value" id="sensor-2-value">-</div>
+                                <div class="sensor-location">Temperature: <span id="sensor-2-temp">-</span>°C</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card sensor-card normal" id="sensor-3-card">
+                            <div class="card-header">
+                                Sensor 3 - Sidewall
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="sensor-value" id="sensor-3-value">-</div>
+                                <div class="sensor-location">Temperature: <span id="sensor-3-temp">-</span>°C</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card sensor-card normal" id="sensor-4-card">
+                            <div class="card-header">
+                                Sensor 4 - Bead
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="sensor-value" id="sensor-4-value">-</div>
+                                <div class="sensor-location">Temperature: <span id="sensor-4-temp">-</span>°C</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <!-- Visualizations -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-dark text-white">
+                                Tire Status Visualization
+                            </div>
+                            <div class="card-body visualization-container">
+                                <img src="{{ url_for('tire_status_image') }}" class="tire-status-img" id="tire-status-img" alt="Tire Status Visualization">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-dark text-white">
+                                Impedance Readings
+                            </div>
+                            <div class="card-body visualization-container">
+                                <img src="{{ url_for('impedance_plot') }}" class="impedance-plot-img" id="impedance-plot-img" alt="Impedance Plot">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Alerts Panel -->
+                <div class="card mt-4">
+                    <div class="card-header bg-danger text-white">
+                        Alerts and Recommendations
+                    </div>
+                    <div class="card-body alerts-container" id="alerts-container">
+                        <p class="text-center text-muted">No alerts yet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            let simulationRunning = false;
+            let statusPollInterval;
+            let dataPollInterval;
+            
+            // Start simulation
+            $('#start-btn').click(function() {
+                if (simulationRunning) return;
+                
+                // Show loader
+                $('#status-loader').show();
+                
+                // Get form data
+                let formData = $('#simulation-form').serialize();
+                
+                // Send start request
+                $.ajax({
+                    url: '/start_simulation',
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            simulationRunning = true;
+                            $('#simulation-status').text(response.message);
+                            
+                            // Update UI
+                            $('#start-btn').prop('disabled', true);
+                            $('#stop-btn').prop('disabled', false);
+                            $('#damage-btn').prop('disabled', false);
+                            
+                            // Start polling for updates
+                            startPolling();
+                        } else {
+                            $('#simulation-status').text('Error: ' + response.message);
+                            $('#status-loader').hide();
+                        }
+                    },
+                    error: function() {
+                        $('#simulation-status').text('Server error occurred');
+                        $('#status-loader').hide();
+                    }
+                });
+            });
+            
+            // Stop simulation
+            $('#stop-btn').click(function() {
+                if (!simulationRunning) return;
+                
+                $.ajax({
+                    url: '/stop_simulation',
+                    type: 'POST',
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            simulationRunning = false;
+                            $('#simulation-status').text(response.message);
+                            
+                            // Update UI
+                            $('#start-btn').prop('disabled', false);
+                            $('#stop-btn').prop('disabled', true);
+                            $('#damage-btn').prop('disabled', true);
+                            $('#download-report-btn').prop('disabled', false);
+                            $('#download-csv-btn').prop('disabled', false);
+                            
+                            // Stop polling
+                            stopPolling();
+                        } else {
+                            $('#simulation-status').text('Error: ' + response.message);
+                        }
+                    },
+                    error: function() {
+                        $('#simulation-status').text('Server error occurred');
+                    }
+                });
+            });
+            
+            // Apply damage
+            $('#damage-btn').click(function() {
+                if (!simulationRunning) return;
+                
+                let damageType = $('#damage-type').val();
+                
+                $.ajax({
+                    url: '/apply_damage',
+                    type: 'POST',
+                    data: { damage_type: damageType },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            $('#simulation-status').text(response.message);
+                            $('#damage-btn').prop('disabled', true);
+                        } else {
+                            $('#simulation-status').text('Error: ' + response.message);
+                        }
+                    },
+                    error: function() {
+                        $('#simulation-status').text('Server error occurred');
+                    }
+                });
+            });
+            
+            // Download report
+            $('#download-report-btn').click(function() {
+                window.location.href = '/download_report';
+            });
+            
+            // Download CSV
+            $('#download-csv-btn').click(function() {
+                window.location.href = '/download_csv';
+            });
+            
+            function startPolling() {
+                // Poll for status updates
+                statusPollInterval = setInterval(updateStatus, 1000);
+                
+                // Poll for data updates
+                dataPollInterval = setInterval(updateData, 1000);
+            }
+            
+            function stopPolling() {
+                clearInterval(statusPollInterval);
+                clearInterval(dataPollInterval);
+                $('#status-loader').hide();
+            }
+            
+            function updateStatus() {
+                $.ajax({
+                    url: '/simulation_status',
+                    type: 'GET',
+                    success: function(data) {
+                        $('#simulation-status').text(data.status);
+                        $('#time-step').text(data.time_step);
+                        $('#alert-count').text(data.alert_count);
+                        
+                        if (!data.running && simulationRunning) {
+                            simulationRunning = false;
+                            $('#start-btn').prop('disabled', false);
+                            $('#stop-btn').prop('disabled', true);
+                            $('#damage-btn').prop('disabled', true);
+                            $('#download-report-btn').prop('disabled', false);
+                            $('#download-csv-btn').prop('disabled', false);
+                            stopPolling();
+                        }
+                        
+                        if (data.damage_applied) {
+                            $('#damage-btn').prop('disabled', true);
+                        }
+                    },
+                    error: function() {
+                        $('#simulation-status').text('Error fetching status');
+                    }
+                });
+            }
+            
+            function updateData() {
+                // Update sensor readings
+                $.ajax({
+                    url: '/sensor_data',
+                    type: 'GET',
+                    success: function(data) {
+                        for (let sensorId in data) {
+                            let reading = data[sensorId];
+                            let normalizedValue = reading.normalized_value.toFixed(3);
+                            let temperature = reading.temperature.toFixed(1);
+                            
+                            $(`#sensor-${sensorId}-value`).text(normalizedValue);
+                            $(`#sensor-${sensorId}-temp`).text(temperature);
+                            
+                            // Update card color based on value
+                            let cardElement = $(`#sensor-${sensorId}-card`);
+                            cardElement.removeClass('normal warning critical');
+                            
+                            if (normalizedValue > 1.3) {
+                                cardElement.addClass('critical');
+                            } else if (normalizedValue > 1.1) {
+                                cardElement.addClass('warning');
+                            } else {
+                                cardElement.addClass('normal');
+                            }
+                        }
+                    }
+                });
+                
+                // Update alerts
+                $.ajax({
+                    url: '/alerts',
+                    type: 'GET',
+                    success: function(data) {
+                        if (data.length > 0) {
+                            let alertsHtml = '';
+                            
+                            for (let i = data.length - 1; i >= 0; i--) {
+                                let alert = data[i];
+                                alertsHtml += `
+                                    <div class="alert-item ${alert.level}">
+                                        <strong>${alert.level}:</strong> ${alert.message}<br>
+                                        <small>Recommendation: ${alert.recommendation}</small>
+                                    </div>
+                                `;
+                            }
+                            
+                            $('#alerts-container').html(alertsHtml);
+                        }
+                    }
+                });
+                
+                // Update visualizations
+                updateVisualizations();
+            }
+            
+            function updateVisualizations() {
+                // Add timestamp to prevent caching
+                let timestamp = new Date().getTime();
+                $('#tire-status-img').attr('src', '/tire_status_image?' + timestamp);
+                $('#impedance-plot-img').attr('src', '/impedance_plot?' + timestamp);
+            }
+        });
+    </script>
+</body>
+</html>
