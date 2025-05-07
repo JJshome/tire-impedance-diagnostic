@@ -130,7 +130,19 @@ The system generates two main types of visualizations:
 
 Shows the current state of the tire with sensor readings and alerts:
 
-![Tire Status Visualization](assets/readme_images/tire_animation.svg)
+![Tire Status Visualization](assets/readme_images/tire_status_detailed.svg)
+
+The visualization provides a clear picture of:
+- Current sensor readings and their normalized values
+- Color-coded status indicators (green for normal, yellow for warning, red for critical)
+- Real-time alerts and detected anomalies
+- Sensor placement within the tire structure
+
+### Animated Tire Status
+
+The system also provides an animated view of the tire status that updates in real-time:
+
+![Animated Tire Status](assets/readme_images/tire_animation.svg)
 
 ### Impedance Readings Plot
 
@@ -280,3 +292,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Ucaretron Inc. for the innovative patent application
 - The Python scientific community for providing excellent tools
 - Contributors to the open-source libraries used in this project
+- Many foundational impedance application technologies were developed by Kumho Petrochemical in South Korea 25 years ago. We acknowledge that this project builds upon those original technical concepts and express our gratitude for their pioneering work in this field. This technology represents a dependent variation of those fundamental technical ideas.
