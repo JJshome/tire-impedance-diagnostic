@@ -85,7 +85,7 @@ The system includes a fully interactive web interface for running simulations an
 4. Monitor real-time sensor readings and visualizations
 5. Download reports and data for further analysis
 
-![Web Interface Screenshot](assets/readme_images/web_interface.png)
+![Web Interface Animation](assets/readme_images/web_interface_animated.svg)
 
 ## 🔄 Command-Line Usage
 
@@ -130,13 +130,13 @@ The system generates two main types of visualizations:
 
 Shows the current state of the tire with sensor readings and alerts:
 
-![Tire Status Visualization](assets/readme_images/tire_status_visualization.svg)
+![Tire Status Visualization](assets/readme_images/tire_animation.svg)
 
 ### Impedance Readings Plot
 
 Displays time-series data of impedance readings from all sensors:
 
-![Impedance Plot](assets/readme_images/impedance_plot.svg)
+![Impedance Plot](assets/readme_images/impedance_animation.svg)
 
 ## 🔧 Advanced Configuration
 
