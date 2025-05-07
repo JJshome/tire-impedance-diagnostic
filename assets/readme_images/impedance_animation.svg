@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="500px" viewBox="0 0 800 500" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        @keyframes drawLine1 {
+            0% { stroke-dashoffset: 800; }
+            100% { stroke-dashoffset: 0; }
+        }
+        
+        @keyframes drawLine2 {
+            0% { stroke-dashoffset: 800; }
+            20% { stroke-dashoffset: 800; }
+            100% { stroke-dashoffset: 0; }
+        }
+        
+        @keyframes drawLine3 {
+            0% { stroke-dashoffset: 800; }
+            40% { stroke-dashoffset: 800; }
+            100% { stroke-dashoffset: 0; }
+        }
+        
+        @keyframes drawLine4 {
+            0% { stroke-dashoffset: 800; }
+            60% { stroke-dashoffset: 800; }
+            100% { stroke-dashoffset: 0; }
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            80% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { r: 8; }
+            50% { r: 12; }
+            100% { r: 8; }
+        }
+        
+        @keyframes flash {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        .line1 {
+            stroke-dasharray: 800;
+            animation: drawLine1 8s linear forwards;
+        }
+        
+        .line2 {
+            stroke-dasharray: 800;
+            animation: drawLine2 8s linear forwards;
+        }
+        
+        .line3 {
+            stroke-dasharray: 800;
+            animation: drawLine3 8s linear forwards;
+        }
+        
+        .line4 {
+            stroke-dasharray: 800;
+            animation: drawLine4 8s linear forwards;
+        }
+        
+        .point {
+            opacity: 0;
+            animation: fadeIn 0.5s linear forwards;
+        }
+        
+        .anomaly {
+            animation: pulse 2s infinite, flash 2s infinite;
+        }
+        
+        .alert {
+            opacity: 0;
+            animation: fadeIn 10s linear forwards, flash 2s 10s infinite;
+        }
+    </style>
+
+    <rect width="800" height="500" fill="#f8f9fa" />
+    
+    <!-- Title and Axes -->
+    <text x="400" y="40" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">
+        Tire Impedance Readings Over Time
+    </text>
+    <text x="400" y="70" font-family="Arial" font-size="16" text-anchor="middle" fill="#666">
+        Dynamic Visualization with Real-time Data
+    </text>
+    
+    <!-- Axes -->
+    <line x1="80" y1="400" x2="720" y2="400" stroke="#333" stroke-width="2" /> <!-- x-axis -->
+    <line x1="80" y1="400" x2="80" y2="60" stroke="#333" stroke-width="2" /> <!-- y-axis -->
+    
+    <!-- X-axis labels -->
+    <text x="400" y="440" font-family="Arial" font-size="14" text-anchor="middle" fill="#333">Time</text>
+    <text x="80" y="420" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">0:00</text>
+    <text x="240" y="420" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">5:00</text>
+    <text x="400" y="420" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">10:00</text>
+    <text x="560" y="420" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">15:00</text>
+    <text x="720" y="420" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">20:00</text>
+    
+    <!-- Y-axis labels -->
+    <text x="40" y="230" font-family="Arial" font-size="14" text-anchor="middle" fill="#333" transform="rotate(-90, 40, 230)">Normalized Impedance</text>
+    <text x="65" y="400" font-family="Arial" font-size="12" text-anchor="end" fill="#666">1.0</text>
+    <text x="65" y="340" font-family="Arial" font-size="12" text-anchor="end" fill="#666">1.1</text>
+    <text x="65" y="280" font-family="Arial" font-size="12" text-anchor="end" fill="#666">1.2</text>
+    <text x="65" y="220" font-family="Arial" font-size="12" text-anchor="end" fill="#666">1.3</text>
+    <text x="65" y="160" font-family="Arial" font-size="12" text-anchor="end" fill="#666">1.4</text>
+    <text x="65" y="100" font-family="Arial" font-size="12" text-anchor="end" fill="#666">1.5</text>
+    
+    <!-- Grid -->
+    <line x1="80" y1="340" x2="720" y2="340" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5" />
+    <line x1="80" y1="280" x2="720" y2="280" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5" />
+    <line x1="80" y1="220" x2="720" y2="220" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5" />
+    <line x1="80" y1="160" x2="720" y2="160" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5" />
+    <line x1="80" y1="100" x2="720" y2="100" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5" />
+    
+    <line x1="240" y1="60" x2="240" y2="400" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5" />
+    <line x1="400" y1="60" x2="400" y2="400" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5" />
+    <line x1="560" y1="60" x2="560" y2="400" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5" />
+    
+    <!-- Threshold line -->
+    <line x1="80" y1="220" x2="720" y2="220" stroke="#f44336" stroke-width="2" stroke-dasharray="5,5" />
+    <text x="725" y="220" font-family="Arial" font-size="12" fill="#f44336" text-anchor="start">Alert Threshold (1.3)</text>
+    
+    <!-- Data Series -->
+    <!-- Tread Left -->
+    <polyline class="line1" points="80,395 160,390 240,380 320,370 400,340 480,290 560,240 640,180 720,100" 
+            fill="none" stroke="#3f51b5" stroke-width="3" />
+    
+    <!-- Tread Right -->
+    <polyline class="line2" points="80,395 160,390 240,385 320,380 400,375 480,370 560,360 640,350 720,340" 
+            fill="none" stroke="#4caf50" stroke-width="3" />
+    
+    <!-- Sidewall -->
+    <polyline class="line3" points="80,395 160,390 240,385 320,375 400,360 480,340 560,320 640,280 720,260" 
+            fill="none" stroke="#ff9800" stroke-width="3" />
+    
+    <!-- Bead -->
+    <polyline class="line4" points="80,395 160,390 240,385 320,380 400,375 480,370 560,365 640,360 720,355" 
+            fill="none" stroke="#9c27b0" stroke-width="3" />
+    
+    <!-- Data points - add with delay for animation effect -->
+    <g class="point" style="animation-delay: 1s">
+        <circle cx="80" cy="395" r="4" fill="#3f51b5" />
+        <circle cx="80" cy="395" r="4" fill="#4caf50" />
+        <circle cx="80" cy="395" r="4" fill="#ff9800" />
+        <circle cx="80" cy="395" r="4" fill="#9c27b0" />
+    </g>
+    
+    <g class="point" style="animation-delay: 2s">
+        <circle cx="160" cy="390" r="4" fill="#3f51b5" />
+        <circle cx="160" cy="390" r="4" fill="#4caf50" />
+        <circle cx="160" cy="390" r="4" fill="#ff9800" />
+        <circle cx="160" cy="390" r="4" fill="#9c27b0" />
+    </g>
+    
+    <g class="point" style="animation-delay: 3s">
+        <circle cx="240" cy="380" r="4" fill="#3f51b5" />
+        <circle cx="240" cy="385" r="4" fill="#4caf50" />
+        <circle cx="240" cy="385" r="4" fill="#ff9800" />
+        <circle cx="240" cy="385" r="4" fill="#9c27b0" />
+    </g>
+    
+    <g class="point" style="animation-delay: 4s">
+        <circle cx="320" cy="370" r="4" fill="#3f51b5" />
+        <circle cx="320" cy="380" r="4" fill="#4caf50" />
+        <circle cx="320" cy="375" r="4" fill="#ff9800" />
+        <circle cx="320" cy="380" r="4" fill="#9c27b0" />
+    </g>
+    
+    <g class="point" style="animation-delay: 5s">
+        <circle cx="400" cy="340" r="4" fill="#3f51b5" />
+        <circle cx="400" cy="375" r="4" fill="#4caf50" />
+        <circle cx="400" cy="360" r="4" fill="#ff9800" />
+        <circle cx="400" cy="375" r="4" fill="#9c27b0" />
+    </g>
+    
+    <g class="point" style="animation-delay: 6s">
+        <circle cx="480" cy="290" r="4" fill="#3f51b5" />
+        <circle cx="480" cy="370" r="4" fill="#4caf50" />
+        <circle cx="480" cy="340" r="4" fill="#ff9800" />
+        <circle cx="480" cy="370" r="4" fill="#9c27b0" />
+    </g>
+    
+    <g class="point" style="animation-delay: 7s">
+        <circle cx="560" cy="240" r="4" fill="#3f51b5" />
+        <circle cx="560" cy="360" r="4" fill="#4caf50" />
+        <circle cx="560" cy="320" r="4" fill="#ff9800" />
+        <circle cx="560" cy="365" r="4" fill="#9c27b0" />
+    </g>
+    
+    <g class="point" style="animation-delay: 8s">
+        <circle cx="640" cy="180" r="4" fill="#3f51b5" />
+        <circle cx="640" cy="350" r="4" fill="#4caf50" />
+        <circle cx="640" cy="280" r="4" fill="#ff9800" />
+        <circle cx="640" cy="360" r="4" fill="#9c27b0" />
+    </g>
+    
+    <g class="point" style="animation-delay: 9s">
+        <circle cx="720" cy="100" r="8" class="anomaly" fill="#3f51b5" stroke="#fff" stroke-width="2" /> <!-- Anomaly -->
+        <circle cx="720" cy="340" r="4" fill="#4caf50" />
+        <circle cx="720" cy="260" r="4" fill="#ff9800" />
+        <circle cx="720" cy="355" r="4" fill="#9c27b0" />
+    </g>
+    
+    <!-- Legend -->
+    <rect x="600" y="80" width="180" height="120" rx="5" fill="#fff" stroke="#ddd" />
+    
+    <line x1="610" y1="100" x2="640" y2="100" stroke="#3f51b5" stroke-width="3" />
+    <text x="650" y="105" font-family="Arial" font-size="12" fill="#333">Tread (Left)</text>
+    
+    <line x1="610" y1="125" x2="640" y2="125" stroke="#4caf50" stroke-width="3" />
+    <text x="650" y="130" font-family="Arial" font-size="12" fill="#333">Tread (Right)</text>
+    
+    <line x1="610" y1="150" x2="640" y2="150" stroke="#ff9800" stroke-width="3" />
+    <text x="650" y="155" font-family="Arial" font-size="12" fill="#333">Sidewall</text>
+    
+    <line x1="610" y1="175" x2="640" y2="175" stroke="#9c27b0" stroke-width="3" />
+    <text x="650" y="180" font-family="Arial" font-size="12" fill="#333">Bead</text>
+    
+    <!-- Damage indication -->
+    <g class="alert">
+        <rect x="250" y="60" width="250" height="40" rx="5" fill="#fff" stroke="#f44336" stroke-width="2" />
+        <text x="375" y="85" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#f44336">Tread damage detected!</text>
+        <line x1="375" y1="100" x2="720" y2="100" stroke="#f44336" stroke-width="1" stroke-dasharray="3,3" />
+    </g>
+</svg>
