@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="500px" viewBox="0 0 800 500" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <rect width="800" height="500" fill="#f8f9fa" />
+    
+    <!-- Title -->
+    <text x="400" y="40" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">
+        Tire Diagnostic System Workflow
+    </text>
+    
+    <!-- Data Generation Box -->
+    <rect x="100" y="100" width="200" height="60" rx="8" fill="#4285f4" opacity="0.8" />
+    <text x="200" y="138" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#fff">
+        Data Generation
+    </text>
+    <text x="200" y="175" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">
+        generate_simulation_data.py
+    </text>
+    
+    <!-- Data Analysis Box -->
+    <rect x="400" y="100" width="200" height="60" rx="8" fill="#34a853" opacity="0.8" />
+    <text x="500" y="138" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#fff">
+        Data Analysis
+    </text>
+    <text x="500" y="175" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">
+        analyze_simulation_data.py
+    </text>
+    
+    <!-- Arrow from Generation to Analysis -->
+    <line x1="300" y1="130" x2="400" y2="130" stroke="#333" stroke-width="2" />
+    <polygon points="395,125 405,130 395,135" fill="#333" />
+    <text x="350" y="120" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">CSV Data</text>
+    
+    <!-- Real-time Simulation Box -->
+    <rect x="100" y="250" width="200" height="60" rx="8" fill="#fbbc05" opacity="0.8" />
+    <text x="200" y="288" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#fff">
+        Real-time Simulation
+    </text>
+    <text x="200" y="325" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">
+        tire_diagnostic_system.py
+    </text>
+    
+    <!-- Results Box -->
+    <rect x="400" y="250" width="200" height="60" rx="8" fill="#ea4335" opacity="0.8" />
+    <text x="500" y="288" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#fff">
+        Diagnostic Results
+    </text>
+    <text x="500" y="325" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">
+        Reports & Visualizations
+    </text>
+    
+    <!-- Arrow from Real-time to Results -->
+    <line x1="300" y1="280" x2="400" y2="280" stroke="#333" stroke-width="2" />
+    <polygon points="395,275 405,280 395,285" fill="#333" />
+    
+    <!-- User Interface Box -->
+    <rect x="250" y="400" width="300" height="60" rx="8" fill="#673ab7" opacity="0.8" />
+    <text x="400" y="438" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#fff">
+        User Interface & Workflow Management
+    </text>
+    <text x="400" y="475" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">
+        run_diagnostic.py
+    </text>
+    
+    <!-- Arrows from UI to other components -->
+    <line x1="310" y1="400" x2="200" y2="310" stroke="#333" stroke-width="2" />
+    <polygon points="203,315 197,306 207,310" fill="#333" />
+    
+    <line x1="400" y1="400" x2="400" y2="175" stroke="#333" stroke-width="2" />
+    <polygon points="395,180 400,170 405,180" fill="#333" />
+    
+    <line x1="490" y1="400" x2="500" y2="310" stroke="#333" stroke-width="2" />
+    <polygon points="495,315 503,306 505,315" fill="#333" />
+    
+    <!-- Scenario Icons -->
+    <g transform="translate(650, 130)">
+        <text x="0" y="-10" font-family="Arial" font-size="14" font-weight="bold" fill="#333">Scenarios:</text>
+        
+        <!-- Normal -->
+        <circle cx="-10" cy="15" r="8" fill="#4285f4" />
+        <text x="50" y="20" font-family="Arial" font-size="12" fill="#333">Normal</text>
+        
+        <!-- Wear -->
+        <circle cx="-10" cy="40" r="8" fill="#34a853" />
+        <text x="50" y="45" font-family="Arial" font-size="12" fill="#333">Gradual Wear</text>
+        
+        <!-- Sidewall -->
+        <circle cx="-10" cy="65" r="8" fill="#fbbc05" />
+        <text x="50" y="70" font-family="Arial" font-size="12" fill="#333">Sidewall Damage</text>
+        
+        <!-- Tread -->
+        <circle cx="-10" cy="90" r="8" fill="#ea4335" />
+        <text x="50" y="95" font-family="Arial" font-size="12" fill="#333">Tread Damage</text>
+        
+        <!-- Puncture -->
+        <circle cx="-10" cy="115" r="8" fill="#673ab7" />
+        <text x="50" y="120" font-family="Arial" font-size="12" fill="#333">Puncture</text>
+    </g>
+    
+    <!-- Output Icons -->
+    <g transform="translate(650, 280)">
+        <text x="0" y="-10" font-family="Arial" font-size="14" font-weight="bold" fill="#333">Outputs:</text>
+        
+        <!-- Reports -->
+        <rect x="-15" y="5" width="10" height="15" fill="#ea4335" />
+        <text x="50" y="20" font-family="Arial" font-size="12" fill="#333">Diagnostic Reports</text>
+        
+        <!-- Impedance Plot -->
+        <rect x="-15" y="30" width="10" height="15" fill="#4285f4" />
+        <text x="50" y="45" font-family="Arial" font-size="12" fill="#333">Impedance Plots</text>
+        
+        <!-- Tire Status -->
+        <circle cx="-10" cy="70" r="8" fill="#34a853" />
+        <text x="50" y="75" font-family="Arial" font-size="12" fill="#333">Tire Status Visualization</text>
+        
+        <!-- Alerts -->
+        <polygon points="-15,95 -5,95 -10,110" fill="#fbbc05" />
+        <text x="50" y="105" font-family="Arial" font-size="12" fill="#333">Alerts & Recommendations</text>
+    </g>
+</svg>
